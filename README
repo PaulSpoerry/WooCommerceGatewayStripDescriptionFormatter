@@ -1,0 +1,24 @@
+== Description ==
+
+Pass in a WooCommerce order_id and return a customized, more verbose description that includes needed meta data to pass to Stripe.
+
+We have order items are stored in WC Order Item Meta and wanted that data sent to Stripe in the description field.
+Contains an array of item meta (in our case multiple products within a product). Set values in array and if they exist they will be sent in the Stripe description.
+
+== Requires ==
+	* WooCommerce 
+	* WooCommerce Stripe Gateway Extension
+	* WooCommerce Subscriptions Extension (if using subscriptions with Stripe)
+	
+== How To ==
+class-wc-gateway-stripe-subscriptions.php
+	function process_subscription_payment
+		Modify value that $subscription_name is set to: $subscription_name = gatewayStripeDescriptionFormatter($order->get_order_number());
+
+class-wc-gateway-stripe.php
+	function process_payment
+		Modify value that $post_data['description'] is set to: $post_data['description']	= gatewayStripeDescriptionFormatter($order->get_order_number());
+		
+
+gatewayStripeDescriptionFormatter.js
+			Define sub products in the array $LBFProducts
